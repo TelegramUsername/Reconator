@@ -366,9 +366,7 @@ font-size:10px;
 	</html>
   '''
 
-  res = ''
-  res = res + q1
-
+  res = '' + q1
   DATABASE_URL = os.environ['DATABASE_URL']
   conn = psycopg2.connect(DATABASE_URL, sslmode='require')
   cur = conn.cursor()
@@ -721,9 +719,7 @@ font-size:10px;
  </body>
  </html>
  '''
-  res = ''
-  res = res + s1
-
+  res = '' + s1
   DATABASE_URL = os.environ['DATABASE_URL']
   conn = psycopg2.connect(DATABASE_URL, sslmode='require')
   cur = conn.cursor()
@@ -758,7 +754,7 @@ def delete_item():
   DATABASE_URL = os.environ['DATABASE_URL']
   conn = psycopg2.connect(DATABASE_URL, sslmode='require')
   cur = conn.cursor()
-  cur.execute("delete from queue where id={}".format(id))
+  cur.execute(f"delete from queue where id={id}")
   conn.commit()
   cur.close()
   conn.close()
@@ -792,14 +788,12 @@ def output(url):
   final = base64.standard_b64decode(res)
   final = final.decode('utf-8')
   os.system(f"touch /app/results/{url}-output.txt")
-  f = open('/app/results/{}-output.txt'.format(url), 'w')
-  f.write(final)
-  f.close()
-
+  with open(f'/app/results/{url}-output.txt', 'w') as f:
+    f.write(final)
   conn.commit()
   cur.close()
   conn.close()
-  return send_file("/app/results/{}-output.txt".format(url))
+  return send_file(f"/app/results/{url}-output.txt")
 
 #########################################################################
 
@@ -833,14 +827,12 @@ def gau_urls(url):
   final = base64.standard_b64decode(res)
   final = final.decode('utf-8')
   os.system(f"touch /app/results/{url}-gau.txt")
-  f = open('/app/results/{}-gau.txt'.format(url), 'w')
-  f.write(final)
-  f.close()
-
+  with open(f'/app/results/{url}-gau.txt', 'w') as f:
+    f.write(final)
   conn.commit()
   cur.close()
   conn.close()
-  return send_file("/app/results/{}-gau.txt".format(url))
+  return send_file(f"/app/results/{url}-gau.txt")
 
 #########################################################################
 
